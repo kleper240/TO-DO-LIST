@@ -1,0 +1,48 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application ToDo - Flask</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">Application Flask ToDo</h1>
+
+        <form class="form" action="{{ url_for('add') }}" method="post">
+            <div class="field">
+                <label>Titre de la tâche</label>
+                <input type="text" name="title" placeholder="Entrer une tâche ToDo...">
+                <br>
+            </div>
+            <div class="field">
+                <label>Description de la tâche</label>
+                <textarea name="description" placeholder="Entrer une description de la tâche..."></textarea>
+                <br>
+            </div>
+            <button class="button" type="submit">Ajouter</button>
+        </form>
+
+        <hr>
+
+        {% for todo in todo_list %} 
+        <div class="segment">
+            <p class="header">{{ todo[1] }}</p>
+            <p><b>Description :</b> {{ todo[2] }}</p>
+            <p><b>Ajouté le :</b> {{ todo[4] }}</p>
+
+            {% if not todo[3] %}
+            <span class="label not-complete">La tâche n'a pas encore été accomplie.</span>
+            {% else %}
+            <span class="label complete">La tâche a été accomplie. </span>
+            {% endif %}
+
+            <a class="button update-button" href="{{ url_for('update', todo_id=todo[0]) }}">Confirme</a>
+            <a class="button delete-button" href="{{ url_for('delete', todo_id=todo[0]) }}">Supprimer</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
